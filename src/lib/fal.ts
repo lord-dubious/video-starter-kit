@@ -3,7 +3,12 @@
 import { createFalClient } from "@fal-ai/client";
 
 export const fal = createFalClient({
-  credentials: () => localStorage?.getItem("falKey") as string,
+  credentials: () => {
+    if (typeof localStorage === "object") {
+      return localStorage.getItem("falKey") as string;
+    }
+    return undefined;
+  },
   proxyUrl: "/api/fal",
 });
 
@@ -29,20 +34,24 @@ export type ApiInfo = {
   imageForFrame?: boolean;
   category: "image" | "video" | "music" | "voiceover";
   prompt?: boolean;
+  from?: string;
 };
 
 export const AVAILABLE_ENDPOINTS: ApiInfo[] = [
   {
-    endpointId: "fal-ai/flux/dev",
-    label: "Flux Dev",
-    description: "Generate a video from a text prompt",
+    endpointId: "fal-ai/imagen3",
+    label: "Imagen3",
+    description:
+      "Imagen3 is a high-quality text-to-image model that generates realistic images from text prompts.",
     cost: "",
     category: "image",
+    from: "Google",
   },
   {
-    endpointId: "fal-ai/flux/schnell",
-    label: "Flux Schnell",
-    description: "Generate a video from a text prompt",
+    endpointId: "fal-ai/ideogram/v3",
+    label: "Ideogram V3",
+    description:
+      "Generate high-quality images, posters, and logos with Ideogram V3. Features exceptional typography handling and realistic outputs optimized for commercial and creative use.",
     cost: "",
     category: "image",
   },
@@ -54,26 +63,49 @@ export const AVAILABLE_ENDPOINTS: ApiInfo[] = [
     category: "image",
   },
   {
-    endpointId: "fal-ai/stable-diffusion-v35-large",
-    label: "Stable Diffusion 3.5 Large",
-    description: "Image quality, typography, complex prompt understanding",
+    endpointId: "fal-ai/recraft/v3/text-to-image",
+    label: "Recraft V3",
+    description:
+      "Recraft V3 is a text-to-image model with the ability to generate long texts, vector art, images in brand style, and much more. As of today, it is SOTA in image generation, proven by Hugging Face's industry-leading Text-to-Image Benchmark by Artificial Analysis.",
     cost: "",
     category: "image",
   },
   {
-    endpointId: "fal-ai/minimax/video-01-live",
-    label: "Minimax Video 01 Live",
-    description: "High quality video, realistic motion and physics",
+    endpointId: "fal-ai/veo3",
+    label: "Veo 3",
+    description:
+      "Veo 3 by Google, the most advanced AI video generation model in the world. With sound on!",
+    cost: "",
+    category: "video",
+    from: "Google",
+  },
+  {
+    endpointId: "fal-ai/veo2",
+    label: "Veo 2",
+    description:
+      "Veo creates videos with realistic motion and high quality output, up to 4K.",
+    cost: "",
+    category: "video",
+    from: "Google",
+  },
+  {
+    endpointId: "fal-ai/veo2/image-to-video",
+    label: "Veo 2 (Image to Video)",
+    description:
+      "Veo 2 creates videos from images with realistic motion and very high quality output.",
     cost: "",
     category: "video",
     inputAsset: ["image"],
+    from: "Google",
   },
   {
-    endpointId: "fal-ai/hunyuan-video",
-    label: "Hunyuan",
-    description: "High visual quality, motion diversity and text alignment",
+    endpointId: "fal-ai/kling-video/v2.1/master/image-to-video",
+    label: "Kling 2.1 Master",
+    description:
+      "Kling 2.1 Master: The premium endpoint for Kling 2.1, designed for top-tier image-to-video generation with unparalleled motion fluidity, cinematic visuals, and exceptional prompt precision.",
     cost: "",
     category: "video",
+    inputAsset: ["image"],
   },
   {
     endpointId: "fal-ai/kling-video/v1.5/pro",
@@ -84,21 +116,20 @@ export const AVAILABLE_ENDPOINTS: ApiInfo[] = [
     inputAsset: ["image"],
   },
   {
-    endpointId: "fal-ai/kling-video/v1/standard/text-to-video",
-    label: "Kling 1.0 Standard",
-    description: "High quality video",
-    cost: "",
-    category: "video",
-    inputAsset: [],
-    cameraControl: true,
-  },
-  {
-    endpointId: "fal-ai/luma-dream-machine",
-    label: "Luma Dream Machine 1.5",
-    description: "High quality video",
+    endpointId: "fal-ai/minimax/video-01-live",
+    label: "Minimax Video 01 Live",
+    description: "High quality video, realistic motion and physics",
     cost: "",
     category: "video",
     inputAsset: ["image"],
+  },
+  {
+    endpointId: "cassetteai/music-generator",
+    label: "Cassette AI",
+    description:
+      "CassetteAI’s model generates a 30-second sample in under 2 seconds and a full 3-minute track in under 10 seconds. At 44.1 kHz stereo audio, expect a level of professional consistency with no breaks, no squeaks, and no random interruptions in your creations.",
+    cost: "",
+    category: "music",
   },
   {
     endpointId: "fal-ai/minimax-music",
@@ -115,96 +146,33 @@ export const AVAILABLE_ENDPOINTS: ApiInfo[] = [
     ],
   },
   {
-    endpointId: "fal-ai/mmaudio-v2",
-    label: "MMAudio V2",
+    endpointId: "fal-ai/minimax/speech-02-hd",
+    label: "MiniMax Speech-02 HD",
     description:
-      "MMAudio generates synchronized audio given video and/or text inputs. It can be combined with video models to get videos with audio.",
-    cost: "",
-    inputAsset: ["video"],
-    category: "video",
-  },
-  {
-    endpointId: "fal-ai/sync-lipsync",
-    label: "sync.so -- lipsync 1.8.0",
-    description:
-      "Generate realistic lipsync animations from audio using advanced algorithms for high-quality synchronization.",
-    cost: "",
-    inputAsset: ["video", "audio"],
-    category: "video",
-  },
-  {
-    endpointId: "fal-ai/stable-audio",
-    label: "Stable Audio",
-    description: "Stable Diffusion music creation with high-quality tracks",
-    cost: "",
-    category: "music",
-  },
-  {
-    endpointId: "fal-ai/playht/tts/v3",
-    label: "PlayHT TTS v3",
-    description: "Fluent and faithful speech with flow matching",
+      "Generate speech from text prompts and different voices using the MiniMax Speech-02 HD model, which leverages advanced AI techniques to create high-quality text-to-speech.",
     cost: "",
     category: "voiceover",
+    inputMap: {
+      prompt: "text",
+    },
     initialInput: {
       voice: "Dexter (English (US)/American)",
     },
   },
   {
-    endpointId: "fal-ai/playai/tts/dialog",
-    label: "PlayAI Text-to-Speech Dialog",
+    endpointId: "fal-ai/elevenlabs/tts/multilingual-v2",
+    label: "ElevenLabs TTS Multilingual v2",
     description:
-      "Generate natural-sounding multi-speaker dialogues. Perfect for expressive outputs, storytelling, games, animations, and interactive media.",
+      "Generate multilingual text-to-speech audio using ElevenLabs TTS Multilingual v2.",
     cost: "",
     category: "voiceover",
     inputMap: {
-      prompt: "input",
+      prompt: "text",
     },
-    initialInput: {
-      voices: [
-        {
-          voice: "Jennifer (English (US)/American)",
-          turn_prefix: "Speaker 1: ",
-        },
-        {
-          voice: "Furio (English (IT)/Italian)",
-          turn_prefix: "Speaker 2: ",
-        },
-      ],
-    },
-  },
-  {
-    endpointId: "fal-ai/f5-tts",
-    label: "F5 TTS",
-    description: "Fluent and faithful speech with flow matching",
-    cost: "",
-    category: "voiceover",
-    initialInput: {
-      ref_audio_url:
-        "https://github.com/SWivid/F5-TTS/raw/21900ba97d5020a5a70bcc9a0575dc7dec5021cb/tests/ref_audio/test_en_1_ref_short.wav",
-      ref_text: "Some call me nature, others call me mother nature.",
-      model_type: "F5-TTS",
-      remove_silence: true,
-    },
-  },
-  {
-    endpointId: "fal-ai/veo2",
-    label: "Veo 2",
-    description:
-      "Veo creates videos with realistic motion and high quality output, up to 4K.",
-    cost: "",
-    category: "video",
-  },
-  {
-    endpointId: "fal-ai/ltx-video-v095/multiconditioning",
-    label: "LTX Video v0.95 Multiconditioning",
-    description: "Generate videos from prompts,images using LTX Video-0.9.5",
-    cost: "",
-    imageForFrame: true,
-    category: "video",
   },
   {
     endpointId: "fal-ai/topaz/upscale/video",
-    label: "Topaz Video Upscale",
+    label: "Video Upscale",
     description:
       "Professional-grade video upscaling using Topaz technology. Enhance your videos with high-quality upscaling.",
     cost: "",

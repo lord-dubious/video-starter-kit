@@ -53,7 +53,7 @@ export default function Footer() {
             <ul className="space-y-2 text-sm text-gray-400">
               <li>
                 <Link
-                  href="https://github.com/fal-ai-community/video-starter-kit"
+                  href="https://github.com/fal-ai-community/video-starter-kit/tree/google-io-2025"
                   className="hover:text-white transition-colors"
                 >
                   GitHub

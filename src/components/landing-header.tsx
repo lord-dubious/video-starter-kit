@@ -27,7 +27,7 @@ export default function Header() {
             Community
           </Link>
           <Link
-            href="https://github.com/fal-ai-community/video-starter-kit"
+            href="https://github.com/fal-ai-community/video-starter-kit/tree/google-io-2025"
             className="text-sm text-gray-400 hover:text-white transition-colors"
           >
             GitHub

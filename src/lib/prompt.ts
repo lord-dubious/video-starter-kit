@@ -46,7 +46,7 @@ export async function enhancePrompt(
         ${projectInfo}
         ${promptInfo}
       `.trim(),
-      model: "meta-llama/llama-3.2-1b-instruct",
+      model: "google/gemini-pro-1.5",
     },
   });
   return data.output.replace(/^"|"$/g, "");

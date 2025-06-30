@@ -1,8 +1,5 @@
 "use client";
 
-import { useToast } from "@/hooks/use-toast";
-import { useQueryClient } from "@tanstack/react-query";
-
 import { useState } from "react";
 import { Button } from "./ui/button";
 import {
@@ -39,6 +36,10 @@ export function KeyDialog({ onOpenChange, open, ...props }: KeyDialogProps) {
           <h2 className="text-lg font-semibold flex flex-row gap-2">
             Save your own FAL Key
           </h2>
+          <p>
+            If you want to use beyong the rate limit provided by us, you should
+            create and use your own FAL Key.
+          </p>
           <div className="flex flex-col gap-4">
             <Input
               placeholder="Your FAL Key"

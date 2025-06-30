@@ -13,7 +13,7 @@ export default function Hero() {
             <span className="text-gray-400">Now Open Source</span>
             <span className="ml-3 h-4 w-px bg-white/20" />
             <a
-              href="https://github.com/fal-ai-community/video-starter-kit"
+              href="https://github.com/fal-ai-community/video-starter-kit/tree/google-io-2025"
               className="ml-3 flex items-center text-white hover:text-gray-300"
             >
               Star on GitHub <ArrowRight className="ml-1 h-4 w-4" />
@@ -41,7 +41,7 @@ export default function Hero() {
                 Try it now
               </Button>
             </Link>
-            <Link href="https://github.com/fal-ai-community/video-starter-kit">
+            <Link href="https://github.com/fal-ai-community/video-starter-kit/tree/google-io-2025">
               <Button size="lg" variant="outline" className="min-w-[200px]">
                 <Github className="mr-2 h-5 w-5" />
                 Star on GitHub

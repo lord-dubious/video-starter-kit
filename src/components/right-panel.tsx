@@ -81,6 +81,11 @@ function ModelEndpointPicker({
           <SelectItem key={endpoint.endpointId} value={endpoint.endpointId}>
             <div className="flex flex-row gap-2 items-center">
               <span>{endpoint.label}</span>
+              {endpoint.from && (
+                <span className="text-xs text-muted-foreground">
+                  by {endpoint.from}
+                </span>
+              )}
             </div>
           </SelectItem>
         ))}
@@ -164,11 +169,7 @@ export default function RightPanel({
 
     const initialInput = endpoint?.initialInput || {};
 
-    if (
-      (mediaType === "video" &&
-        endpoint?.endpointId === "fal-ai/hunyuan-video") ||
-      mediaType !== "video"
-    ) {
+    if (mediaType !== "video") {
       setGenerateData({ image: null, ...initialInput });
     } else {
       setGenerateData({ ...initialInput });
@@ -187,6 +188,7 @@ export default function RightPanel({
     seconds_total?: number;
     voice?: string;
     input?: string;
+    duration?: number;
     reference_audio_url?: File | string | null;
     images?: {
       start_frame_num: number;
@@ -224,6 +226,10 @@ export default function RightPanel({
       endpointId === "fal-ai/playht/tts/v3" ? generateData.prompt : undefined,
   };
 
+  if (endpoint?.category === "music") {
+    input.duration = 30;
+  }
+
   if (generateData.image) {
     input.image_url = generateData.image;
   }
@@ -258,10 +264,7 @@ export default function RightPanel({
       : {};
   const createJob = useJobCreator({
     projectId,
-    endpointId:
-      generateData.image && mediaType === "video"
-        ? `${endpointId}/image-to-video`
-        : endpointId,
+    endpointId,
     mediaType,
     input: {
       ...(endpoint?.initialInput || {}),
@@ -404,44 +407,44 @@ export default function RightPanel({
               variant="ghost"
               onClick={() => handleMediaTypeChange("image")}
               className={cn(
-                mediaType === "image" && "bg-white/10",
+                mediaType === "image" && "bg-primary/10 text-primary",
                 "h-14 flex flex-col justify-center w-1/4 rounded-md gap-2 items-center",
               )}
             >
-              <ImageIcon className="w-4 h-4 opacity-50" />
+              <ImageIcon className="w-4 h-4" />
               <span className="text-[10px]">Image</span>
             </Button>
             <Button
               variant="ghost"
               onClick={() => handleMediaTypeChange("video")}
               className={cn(
-                mediaType === "video" && "bg-white/10",
+                mediaType === "video" && "bg-primary/10 text-primary",
                 "h-14 flex flex-col justify-center w-1/4 rounded-md gap-2 items-center",
               )}
             >
-              <VideoIcon className="w-4 h-4 opacity-50" />
+              <VideoIcon className="w-4 h-4" />
               <span className="text-[10px]">Video</span>
             </Button>
             <Button
               variant="ghost"
               onClick={() => handleMediaTypeChange("voiceover")}
               className={cn(
-                mediaType === "voiceover" && "bg-white/10",
+                mediaType === "voiceover" && "bg-primary/10 text-primary",
                 "h-14 flex flex-col justify-center w-1/4 rounded-md gap-2 items-center",
               )}
             >
-              <MicIcon className="w-4 h-4 opacity-50" />
+              <MicIcon className="w-4 h-4" />
               <span className="text-[10px]">Voiceover</span>
             </Button>
             <Button
               variant="ghost"
               onClick={() => handleMediaTypeChange("music")}
               className={cn(
-                mediaType === "music" && "bg-white/10",
+                mediaType === "music" && "bg-primary/10 text-primary",
                 "h-14 flex flex-col justify-center w-1/4 rounded-md gap-2 items-center",
               )}
             >
-              <MusicIcon className="w-4 h-4 opacity-50" />
+              <MusicIcon className="w-4 h-4" />
               <span className="text-[10px]">Music</span>
             </Button>
           </div>
