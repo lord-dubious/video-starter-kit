@@ -60,7 +60,7 @@
   },
   "devDependencies": {
     "@biomejs/biome": "1.9.4",
-    "@remotion/cli": "^4.0.240",
+    "@remotion/cli": "^4.0.321",
     "@types/node": "^20",
     "@types/react": "^18",
     "@types/react-dom": "^18",
